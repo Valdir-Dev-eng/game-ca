@@ -1,0 +1,619 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Carol, bem-vinda! 💗</title>
+  
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Quicksand:wght@400;500;600;700&family=Dancing+Script:wght@600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    * { 
+      margin: 0; 
+      padding: 0; 
+      box-sizing: border-box; 
+      -webkit-tap-highlight-color: transparent;
+      touch-action: none;
+    }
+    
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: linear-gradient(135deg, #ffe0ec 0%, #ffc2d4 50%, #ffb3c6 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      overflow: hidden;
+      position: relative;
+      -webkit-user-select: none;
+      user-select: none;
+      -webkit-touch-callout: none;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(255, 182, 193, 0.3) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 182, 193, 0.3) 1px, transparent 1px);
+      background-size: 30px 30px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* TELA DE ORIENTAÇÃO (SÓ APARECE APÓS CLIQUE, SE ESTIVER EM PORTRAIT) */
+    .orientation-warning {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(135deg, #ffb3c6 0%, #ff9ebb 100%);
+      z-index: 2000;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      text-align: center;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .orientation-warning.show {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .orientation-icon {
+      font-size: 5rem;
+      margin-bottom: 30px;
+      animation: rotatePhone 2s ease-in-out infinite;
+    }
+
+    @keyframes rotatePhone {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(-10deg); }
+      75% { transform: rotate(10deg); }
+    }
+
+    .orientation-warning h2 {
+      font-family: 'Press Start 2P', cursive;
+      font-size: 1.1rem;
+      color: #ad1457;
+      margin-bottom: 15px;
+      line-height: 1.6;
+      text-shadow: 2px 2px 0 rgba(255, 255, 255, 0.5);
+    }
+
+    .orientation-warning p {
+      font-size: 1.1rem;
+      color: #880e4f;
+      font-weight: 600;
+    }
+
+    .orientation-hearts {
+      font-size: 2rem;
+      margin-top: 30px;
+      animation: heartbeat 1.5s ease-in-out infinite;
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    /* TELA 1: BOAS VINDAS (sempre visível antes do clique) */
+    .screen-welcome {
+      position: relative;
+      z-index: 10;
+      text-align: center;
+      max-width: 400px;
+      width: 100%;
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .screen-welcome.hidden {
+      opacity: 0;
+      transform: scale(0.9);
+      pointer-events: none;
+      position: absolute;
+    }
+
+    .big-heart {
+      font-size: 5rem;
+      margin-bottom: 20px;
+      animation: heartbeat 1.5s ease-in-out infinite;
+    }
+
+    .welcome-title {
+      font-family: 'Dancing Script', cursive;
+      font-size: 3rem;
+      color: #ad1457;
+      margin-bottom: 10px;
+    }
+
+    .info-card {
+      background: rgba(255, 255, 255, 0.9);
+      border-radius: 25px;
+      padding: 25px;
+      margin-bottom: 25px;
+      box-shadow: 0 10px 30px rgba(173, 20, 87, 0.2);
+      border: 2px solid rgba(255, 255, 255, 0.9);
+    }
+
+    .info-card p {
+      font-size: 1rem;
+      color: #5a3a4a;
+      line-height: 1.6;
+      margin-bottom: 10px;
+    }
+
+    .start-btn {
+      background: linear-gradient(135deg, #ec407a 0%, #c2185b 100%);
+      color: white;
+      border: none;
+      padding: 18px 40px;
+      font-family: 'Press Start 2P', cursive;
+      font-size: 0.9rem;
+      border-radius: 50px;
+      cursor: pointer;
+      box-shadow: 0 10px 30px rgba(236, 64, 122, 0.5);
+      transition: transform 0.1s;
+    }
+
+    .start-btn:active {
+      transform: scale(0.95);
+    }
+
+    .start-btn:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+    }
+
+    #statusMsg {
+      margin-top: 15px;
+      font-size: 0.9rem;
+      color: #880e4f;
+      font-weight: 600;
+    }
+
+    /* TELA 2: CONTROLE SNES */
+    .screen-controller {
+      display: none;
+      width: 100%;
+      max-width: 650px;
+      z-index: 10;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .screen-controller.active {
+      display: block;
+    }
+
+    .controller-box {
+      background: linear-gradient(145deg, #f5f5f5 0%, #e8e8e8 100%);
+      border-radius: 30px;
+      padding: 25px;
+      box-shadow: 
+        0 15px 40px rgba(173, 20, 87, 0.3),
+        inset 0 2px 10px rgba(255,255,255,0.8);
+      border: 3px solid #fff;
+    }
+
+    .status-bar {
+      text-align: center;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+    }
+
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      background: #4caf50;
+      border-radius: 50%;
+      box-shadow: 0 0 10px #4caf50;
+    }
+
+    .status-text {
+      font-family: 'Press Start 2P', cursive;
+      font-size: 0.7rem;
+      color: #ad1457;
+    }
+
+    .snes-layout {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .d-pad {
+      position: relative;
+      width: 140px;
+      height: 140px;
+      flex-shrink: 0;
+    }
+
+    .d-pad-center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 46px;
+      height: 46px;
+      background: #212121;
+      z-index: 10;
+      border-radius: 4px;
+    }
+
+    .d-btn {
+      position: absolute;
+      background: linear-gradient(145deg, #424242 0%, #212121 100%);
+      cursor: pointer;
+      box-shadow: 
+        inset 0 2px 5px rgba(255,255,255,0.2),
+        0 3px 8px rgba(0,0,0,0.4);
+      touch-action: none;
+      -webkit-touch-callout: none;
+    }
+
+    .d-btn:active, .d-btn.active {
+      background: #1a1a1a;
+      box-shadow: inset 0 3px 10px rgba(0,0,0,0.6);
+    }
+
+    .d-up {
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 46px;
+      height: 50px;
+      border-radius: 6px 6px 2px 2px;
+    }
+
+    .d-down {
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 46px;
+      height: 50px;
+      border-radius: 2px 2px 6px 6px;
+    }
+
+    .d-left {
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 50px;
+      height: 46px;
+      border-radius: 6px 2px 2px 6px;
+    }
+
+    .d-right {
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 50px;
+      height: 46px;
+      border-radius: 2px 6px 6px 2px;
+    }
+
+    .action-buttons {
+      display: flex;
+      gap: 15px;
+      align-items: flex-start;
+    }
+
+    .btn-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .btn-container:first-child { margin-top: 0; }
+    .btn-container:last-child { margin-top: 30px; }
+
+    .action-btn {
+      width: 75px;
+      height: 75px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Press Start 2P', cursive;
+      font-size: 1.2rem;
+      box-shadow: 
+        0 5px 0 rgba(0,0,0,0.3),
+        0 8px 15px rgba(0,0,0,0.3),
+        inset 0 3px 10px rgba(255,255,255,0.4);
+      border: 3px solid rgba(255,255,255,0.5);
+      touch-action: none;
+      -webkit-touch-callout: none;
+      -webkit-user-select: none;
+      user-select: none;
+    }
+
+    .action-btn:active, .action-btn.active {
+      transform: translateY(5px);
+      box-shadow: 
+        0 0 0 rgba(0,0,0,0.3),
+        inset 0 3px 15px rgba(0,0,0,0.3);
+    }
+
+    .btn-a {
+      background: linear-gradient(145deg, #ff5252 0%, #d32f2f 100%);
+      color: white;
+    }
+
+    .btn-b {
+      background: linear-gradient(145deg, #ffeb3b 0%, #fbc02d 100%);
+      color: #5a4a00;
+    }
+
+    .btn-label {
+      font-family: 'Press Start 2P', cursive;
+      font-size: 0.8rem;
+      color: #ad1457;
+    }
+
+    /* Responsivo para landscape pequeno */
+    @media (max-height: 500px) and (orientation: landscape) {
+      .controller-box { padding: 15px 20px; }
+      .d-pad { width: 110px; height: 110px; }
+      .d-pad-center { width: 36px; height: 36px; }
+      .d-up, .d-down { width: 36px; height: 40px; }
+      .d-left, .d-right { width: 40px; height: 36px; }
+      .action-btn { width: 60px; height: 60px; font-size: 1rem; }
+      .btn-container:last-child { margin-top: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TELA DE ORIENTAÇÃO (só aparece APÓS o clique, se estiver em portrait) -->
+  <div class="orientation-warning" id="orientationWarning">
+    <div class="orientation-icon"></div>
+    <h2>Minha Linda, vire o celular :3</h2>
+    <p>O controle fica muito melhor na horizontal!</p>
+    <div class="orientation-hearts">💗💗</div>
+  </div>
+
+  <!-- TELA 1: BOAS-VINDAS (sempre visível antes do clique) -->
+  <div class="screen-welcome" id="screenWelcome">
+    <div class="big-heart">💗</div>
+    <h1 class="welcome-title">Carol!</h1>
+    <div class="info-card">
+      <p>Que bom que você escaneou! </p>
+      <p>Esse é o seu <strong>controle pessoal</strong>.</p>
+      <p>Clique abaixo para começar a jogar comigo.</p>
+    </div>
+    <button class="start-btn" id="startBtn" onclick="iniciarJogo()">COMEÇAR 💗</button>
+    <p id="statusMsg"></p>
+  </div>
+
+  <!-- TELA 2: CONTROLE SNES -->
+  <div class="screen-controller" id="screenController">
+    <div class="controller-box">
+      <div class="status-bar">
+        <div class="status-dot"></div>
+        <span class="status-text">CONECTADO</span>
+      </div>
+
+      <div class="snes-layout">
+        <div class="d-pad">
+          <div class="d-btn d-up" data-btn="up"></div>
+          <div class="d-btn d-down" data-btn="down"></div>
+          <div class="d-btn d-left" data-btn="left"></div>
+          <div class="d-btn d-right" data-btn="right"></div>
+          <div class="d-pad-center"></div>
+        </div>
+
+        <div class="action-buttons">
+          <div class="btn-container">
+            <div class="action-btn btn-b" data-btn="b">B</div>
+            <span class="btn-label">B</span>
+          </div>
+          <div class="btn-container">
+            <div class="action-btn btn-a" data-btn="a">A</div>
+            <span class="btn-label">A</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    let WS_URL = '';
+    let ws = null;
+    let isReady = false;
+    let jogoIniciado = false; //  Flag: só checa orientação depois do clique
+    const sessionId = window.location.pathname.split('/').pop();
+
+    const orientationWarning = document.getElementById('orientationWarning');
+    const screenWelcome = document.getElementById('screenWelcome');
+    const screenController = document.getElementById('screenController');
+
+    // 🆕 Só verifica orientação DEPOIS que o jogo foi iniciado
+    function checkOrientation() {
+      if (!jogoIniciado) return; // Antes do clique, não faz nada
+      
+      if (window.innerHeight > window.innerWidth) {
+        // Portrait → mostra overlay
+        orientationWarning.classList.add('show');
+        screenController.classList.remove('active');
+      } else {
+        // Landscape → esconde overlay, mostra controle
+        orientationWarning.classList.remove('show');
+        if (isReady) {
+          screenController.classList.add('active');
+        }
+      }
+    }
+
+    // Só começa a escutar orientação DEPOIS do clique
+    function ativarMonitoramentoOrientacao() {
+      jogoIniciado = true;
+      checkOrientation(); // Verifica imediatamente
+      window.addEventListener('orientationchange', () => setTimeout(checkOrientation, 300));
+      window.addEventListener('resize', () => setTimeout(checkOrientation, 300));
+    }
+
+    async function carregarConfig() {
+      try {
+        const res = await fetch('/getWsEnd').then(r => r.json());
+        WS_URL = res.url;
+        console.log('✅ WS_URL carregado:', WS_URL);
+      } catch (e) {
+        console.error('Erro ao carregar config', e);
+        setTimeout(carregarConfig, 2000);
+      }
+    }
+
+    function iniciarJogo() {
+      const btn = document.getElementById('startBtn');
+      const status = document.getElementById('statusMsg');
+      
+      btn.disabled = true;
+      btn.textContent = 'CONECTANDO...';
+      status.textContent = 'Estabelecendo conexão...';
+
+      if (!WS_URL) {
+        carregarConfig().then(conectarWS);
+      } else {
+        conectarWS();
+      }
+    }
+
+    function conectarWS() {
+      ws = new WebSocket(WS_URL);
+
+      ws.onopen = () => {
+        console.log('🔌 Celular conectado');
+        ws.send(JSON.stringify({ type: 'register_celular', sessionId: sessionId }));
+        
+        // Esconde boas-vindas
+        screenWelcome.classList.add('hidden');
+        
+        // 🆕 Ativa monitoramento de orientação
+        ativarMonitoramentoOrientacao();
+        
+        setTimeout(() => {
+          screenWelcome.style.display = 'none';
+          isReady = true;
+          setupButtons();
+          console.log('✅ Controle pronto e botões habilitados!');
+        }, 500);
+      };
+
+      ws.onclose = () => {
+        console.log('🔌 Conexão perdida. Reconectando...');
+        isReady = false;
+        setTimeout(conectarWS, 2000);
+      };
+
+      ws.onerror = (err) => {
+        console.error(' Erro WebSocket:', err);
+        document.getElementById('statusMsg').textContent = 'Erro de conexão. Tente novamente.';
+        document.getElementById('startBtn').disabled = false;
+        document.getElementById('startBtn').textContent = 'TENTAR NOVAMENTE';
+      };
+    }
+
+    function setupButtons() {
+      const buttons = document.querySelectorAll('.d-btn, .action-btn');
+      
+      buttons.forEach(btn => {
+        const buttonType = btn.getAttribute('data-btn');
+        
+        btn.addEventListener('touchstart', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          handleButtonPress(buttonType);
+        }, { passive: false });
+        
+        btn.addEventListener('touchend', (e) => {
+          e.preventDefault();
+          e.stopPropagation();
+          handleButtonRelease(buttonType);
+        }, { passive: false });
+        
+        btn.addEventListener('mousedown', (e) => {
+          e.preventDefault();
+          handleButtonPress(buttonType);
+        });
+        
+        btn.addEventListener('mouseup', (e) => {
+          e.preventDefault();
+          handleButtonRelease(buttonType);
+        });
+        
+        btn.addEventListener('mouseleave', () => {
+          handleButtonRelease(buttonType);
+        });
+      });
+    }
+
+    function handleButtonPress(btn) {
+      if (!isReady || !ws || ws.readyState !== WebSocket.OPEN) return;
+      
+      const el = document.querySelector(`[data-btn="${btn}"]`);
+      if (el) {
+        el.classList.add('active');
+        el.offsetHeight; // força repaint
+      }
+      
+      ws.send(JSON.stringify({
+        type: 'button_press',
+        sessionId: sessionId,
+        button: btn
+      }));
+      
+      console.log(`🎮 Botão ${btn} pressionado`);
+    }
+
+    function handleButtonRelease(btn) {
+  const el = document.querySelector(`[data-btn="${btn}"]`);
+  if (el) {
+    el.classList.remove('active');
+  }
+  
+  // Envia evento de release pro servidor
+  if (isReady && ws && ws.readyState === WebSocket.OPEN) {
+    ws.send(JSON.stringify({
+      type: 'button_release',
+      sessionId: sessionId,
+      button: btn
+    }));
+  }
+  
+  console.log(`🎮 Botão ${btn} solto`);
+}
+
+    // Inicialização
+    carregarConfig();
+
+    // Previne zoom duplo
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', (e) => {
+      if (Date.now() - lastTouchEnd <= 300) e.preventDefault();
+      lastTouchEnd = Date.now();
+    }, false);
+  </script>
+</body>
+</html>

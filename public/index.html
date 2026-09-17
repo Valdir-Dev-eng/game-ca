@@ -1,0 +1,268 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Para a Carol 💗</title>
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+<link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+<link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+<link rel="manifest" href="/site.webmanifest">
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,400&family=Dancing+Script:wght@500;600;700&family=Quicksand:wght@300;400;500;600;700&family=Press+Start+2P&display=swap" rel="stylesheet">
+  <!-- QR Code lib -->
+  <script src="https://cdn.jsdelivr.net/npm/qrcodejs@1.0.0/qrcode.min.js"></script>
+</head>
+<body>
+
+  <!-- Cursor customizado -->
+  <div class="cursor-dot"></div>
+  <div class="cursor-ring"></div>
+
+  <!-- Canvas de partículas -->
+  <canvas id="particulas"></canvas>
+  
+  <!-- Crosshair do Valorant (decorativo) -->
+  <div class="crosshair crosshair-1"></div>
+  <div class="crosshair crosshair-2"></div>
+
+  <!-- Blocos do Minecraft (decorativos) -->
+  <div class="minecraft-block block-1"></div>
+  <div class="minecraft-block block-2"></div>
+  <div class="minecraft-block block-3"></div>
+
+  <!-- Overlay de entrada -->
+  <div class="intro-overlay" id="intro">
+    <div class="intro-content">
+      <span class="intro-small">esta carta é para</span>
+      <h1 class="intro-name">Carol</h1>
+      <p class="intro-subtitle">você merece ler isso 💗</p>
+      <button class="intro-btn" id="btnEntrar">abrir 💗</button>
+    </div>
+  </div>
+
+  <!-- Conteúdo principal -->
+  <main class="conteudo" id="conteudo">
+
+    <!-- HERO -->
+    <section class="hero">
+      <div class="hero-inner">
+        <p class="hero-eyebrow reveal">uma demonstração de arrependimento</p>
+        <h1 class="hero-title reveal">
+          <span>Carol</span>
+          <span class="sobrenome">da Silva</span>
+          <span class="hero-me"></span>
+        </h1>
+        <p class="hero-sub reveal">
+          Carol, eu não vim te pedir desculpa de novo. <br>
+          Eu vim te mostrar o que eu entendi.
+        </p>
+        <div class="scroll-indicator reveal">
+          <span>role pra baixo</span>
+          <div class="scroll-line"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEÇÃO 1: O QUE EU FIZ -->
+    <section class="secao secao-esquerda">
+      <div class="secao-numero">01</div>
+      <div class="secao-conteudo reveal">
+        <h2 class="secao-titulo">O que eu fiz, Carol</h2>
+        <div class="secao-linha"></div>
+        <p class="secao-texto">
+          <span class="nome-carol">Carol</span>, eu te dei minha palavra. Disse que <em>não entraria mais em calls públicas</em>.
+          Entrei. E não só entrei: <span class="destaque">joguei com outra pessoa</span>.
+        </p>
+        <p class="secao-texto">
+          Você não tá brava à toa, <span class="nome-carol">Carol</span>. Você tá brava porque a minha palavra, naquele momento,
+          não valeu nada. E isso dói mais do que qualquer outra coisa — porque você, <span class="nome-carol">Carol da Silva</span>,
+          <span class="destaque-rosa">confiou em mim</span>.
+        </p>
+        <p class="secao-texto destaque-carol">
+          E eu tratei essa confiança com descaso. <br>
+          Você merece alguém que honre o que promete — e eu falhei nisso.
+        </p>
+      </div>
+    </section>
+
+    <!-- SEÇÃO 2: O QUE EU ENTENDI -->
+    <section class="secao secao-direita">
+      <div class="secao-numero">02</div>
+      <div class="secao-conteudo reveal">
+        <h2 class="secao-titulo">O que eu entendi, Carol</h2>
+        <div class="secao-linha"></div>
+
+        <div class="timeline">
+          <div class="timeline-item">
+            <div class="timeline-ponto"></div>
+            <div class="timeline-texto">
+              <h3>Quebrei um combinado</h3>
+              <p>E combinado entre a gente não é detalhe — é a base de tudo. Você merece mais, <span class="nome-carol">Carol</span>.</p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-ponto"></div>
+            <div class="timeline-texto">
+              <h3>Te coloquei numa posição ridícula</h3>
+              <p>A de ter que duvidar do que eu falo. Ninguém merece isso.</p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-ponto">💔</div>
+            <div class="timeline-texto">
+              <h3>Fui imaturo. Fui cusão.</h3>
+              <p>Assumir isso não me diminui — me obriga a crescer. Por você, <span class="nome-carol">Carol</span>.</p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-ponto"></div>
+            <div class="timeline-texto">
+              <h3>Não foi "só uma call"</h3>
+              <p>Foi a quebra de uma confiança que você construiu com cuidado, <span class="nome-carol">Carol</span>.</p>
+            </div>
+          </div>
+          <div class="timeline-item">
+            <div class="timeline-ponto">💔</div>
+            <div class="timeline-texto">
+              <h3>Te fiz sentir em segundo plano</h3>
+              <p>Você, que sempre foi prioridade. Isso eu não te desejo nunca mais. Nunca.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEÇÃO 3: O QUE EU PROMETO -->
+    <section class="secao secao-esquerda">
+      <div class="secao-numero">03</div>
+      <div class="secao-conteudo reveal">
+        <h2 class="secao-titulo">O que eu prometo, Carol</h2>
+        <div class="secao-linha"></div>
+        <p class="secao-texto intro-promessas">
+          <span class="nome-carol">Carol</span>, não vou te pedir pra confiar de novo agora. <br>
+          <strong>Confiança se reconquista.</strong> Então aqui vai o que eu vou fazer:
+        </p>
+
+        <div class="promessas-grid">
+          <div class="promessa-card">
+            <div class="promessa-icone">🚫</div>
+            <h3>Calls públicas</h3>
+            <p>Não entro mais. Nem por amizade, nem por "só uma partida". Se eu quiser jogar, jogo com você, <span class="nome-carol">Carol</span> — ou não jogo.</p>
+          </div>
+          <div class="promessa-card">
+            <div class="promessa-icone"></div>
+            <h3>Transparência total</h3>
+            <p>Se eu errar de novo, eu conto antes de você descobrir. Mentir pra te "proteger" é só mentir.</p>
+          </div>
+          <div class="promessa-card">
+            <div class="promessa-icone">⏳</div>
+            <h3>Seu tempo</h3>
+            <p>Você não precisa me responder agora. Não precisa voltar pra call. Não precisa nada. Eu espero o tempo que for.</p>
+          </div>
+          <div class="promessa-card">
+            <div class="promessa-icone">🕊️</div>
+            <h3>Sem pressão</h3>
+            <p>Não vou te cobrar carinho que eu mesmo perdi o direito de receber. Se voltar, vai ser porque você quis.</p>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- SEÇÃO 4: O QUE VOCÊ É PRA MIM -->
+    <section class="secao secao-direita secao-final-texto">
+      <div class="secao-numero">04</div>
+      <div class="secao-conteudo reveal">
+        <h2 class="secao-titulo">O que você é pra mim, Carol</h2>
+        <div class="secao-linha"></div>
+        <p class="secao-texto">
+          <span class="nome-carol">Carol</span>, eu não vou romantizar agora — você merece honestidade, não discurso.
+        </p>
+        <p class="secao-texto">
+          Você, <span class="nome-carol">Carol da Silva</span>, é a pessoa que eu <span class="destaque-rosa">escolho estar perto</span>.
+          É com você que eu quero dividir as calls de Valorant, as construções de Minecraft, os silêncios, as partidas ruins e as boas.
+        </p>
+        <p class="secao-texto">
+          Eu gosto de você, <span class="nome-carol">Carol</span>. <strong>Muito.</strong>
+          E foi justamente porque eu gosto tanto que eu fui descuidado — porque achei que "tudo bem", e não era.
+        </p>
+        <p class="secao-texto destaque-carol">
+          Você é importante pra mim. E eu quero provar isso com atitudes — não com palavras.
+        </p>
+        <p class="secao-texto assinatura-texto">
+          Você merece alguém que honre o que promete, <span class="nome-carol">Carol</span>. <br>
+          E é isso que eu quero ser — não hoje, não amanhã, <br>
+          mas todos os dias, até você acreditar de novo.
+        </p>
+        <p class="assinatura">— com todo o carinho do mundo 💗</p>
+      </div>
+    </section>
+
+    <!-- SEÇÃO FINAL: INTERATIVA COM QR CODE -->
+    <section class="secao-final" id="secaoFinal">
+      <div class="coracao-gigante" id="coracao">💗</div>
+      <h2 class="final-title">Carol 💗</h2>
+      
+      <!-- Estado 1: Botão inicial -->
+      <div class="estado-inicial" id="estadoInicial">
+        <button class="btn-paz" id="btnPaz">
+          <span>Vamos fazer as pazes?</span>
+          <span class="btn-rose"></span>
+        </button>
+        <p class="msg-final" id="msgFinal">
+          <span class="nome-carol-grande">Carol</span>, eu vou estar aqui. <br>
+          <em>No tempo que você precisar.</em> <br>
+          <span class="frase-final">Sem pressa. Sem cobrança. Só esperando você. 💗</span>
+        </p>
+      </div>
+
+      <!-- Estado 2: QR Code (aparece após clicar) -->
+      <div class="estado-qr" id="estadoQr" style="display: none;">
+        <p class="qr-instrucao">Pega seu celular e escaneia, Carol 💗</p>
+        <div class="qr-container">
+          <div id="qrcode"></div>
+        </div>
+        <p class="qr-status" id="qrStatus">
+          <span class="status-dot"></span>
+          Gerando seu QR Code...
+        </p>
+        <p class="qr-dica">quando você escanear, seu celular vai abrir um joguinho fofo </p>
+      </div>
+
+      <!-- Estado 3: Celular conectado (painel de controle) -->
+      <div class="estado-conectado" id="estadoConectado" style="display: none;">
+        <div class="conectado-header">
+          <span class="status-dot ativo"></span>
+          <span>Carol conectou! 💗</span>
+        </div>
+        <div class="painel-controles">
+          <h3>Controles que ela tá apertando:</h3>
+          <div class="controles-grid" id="controlesGrid">
+            <div class="controle-item" data-btn="up">↑ <span class="controle-label">CIMA</span></div>
+            <div class="controle-item" data-btn="down">↓ <span class="controle-label">BAIXO</span></div>
+            <div class="controle-item" data-btn="left">← <span class="controle-label">ESQUERDA</span></div>
+            <div class="controle-item" data-btn="right">→ <span class="controle-label">DIREITA</span></div>
+            <div class="controle-item" data-btn="a">A</div>
+            <div class="controle-item" data-btn="b">B</div>
+          </div>
+          <div class="log-eventos" id="logEventos">
+            <p class="log-empty">esperando ações dela...</p>
+          </div>
+        </div>
+      </div>
+
+      <div class="floating-hearts" id="floatingHearts"></div>
+    </section>
+
+    <footer>
+      <p>feito com carinho para <span class="nome-carol">Carol da Silva</span> — não pra te convencer, mas pra te mostrar o que eu sinto de verdade.</p>
+      <p class="footer-extra">🎯 Valorant | ⛏️ Minecraft | 💗 Carol</p>
+    </footer>
+
+  </main>
+
+  <script src="script.js"></script>
+</body>
+</html>

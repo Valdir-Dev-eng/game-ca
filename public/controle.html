@@ -1,0 +1,681 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Painel de Controle - Carol 💗</title>
+  
+  <!-- FAVICONS -->
+  <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png">
+  <link rel="manifest" href="/site.webmanifest">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&family=Quicksand:wght@500;600;700&display=swap" rel="stylesheet">
+  
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      -webkit-tap-highlight-color: transparent;
+    }
+
+    body {
+      font-family: 'Quicksand', sans-serif;
+      background: linear-gradient(135deg, #ffe0ec 0%, #ffc2d4 100%);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 20px;
+      overflow: hidden;
+      position: relative;
+      
+      /* Impede seleção de texto e menu de contexto */
+      -webkit-user-select: none;
+      -moz-user-select: none;
+      -ms-user-select: none;
+      user-select: none;
+      -webkit-touch-callout: none;
+    }
+
+    /* Background animado */
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      background-image: 
+        linear-gradient(rgba(255, 182, 193, 0.3) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 182, 193, 0.3) 1px, transparent 1px);
+      background-size: 30px 30px;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    /* TELA DE ORIENTAÇÃO (PORTRAIT) */
+    .orientation-warning {
+      display: none;
+      position: fixed;
+      inset: 0;
+      background: linear-gradient(135deg, #ffb3c6 0%, #ff9ebb 100%);
+      z-index: 1000;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      padding: 40px;
+      text-align: center;
+      animation: fadeIn 0.5s ease;
+    }
+
+    .orientation-warning.show {
+      display: flex;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    .orientation-icon {
+      font-size: 5rem;
+      margin-bottom: 30px;
+      animation: rotatePhone 2s ease-in-out infinite;
+    }
+
+    @keyframes rotatePhone {
+      0%, 100% { transform: rotate(0deg); }
+      25% { transform: rotate(-10deg); }
+      75% { transform: rotate(10deg); }
+    }
+
+    .orientation-warning h2 {
+      font-family: 'Press Start 2P', cursive;
+      font-size: 1.2rem;
+      color: #ad1457;
+      margin-bottom: 15px;
+      line-height: 1.6;
+      text-shadow: 2px 2px 0 rgba(255, 255, 255, 0.5);
+    }
+
+    .orientation-warning p {
+      font-size: 1.1rem;
+      color: #880e4f;
+      font-weight: 600;
+    }
+
+    .orientation-hearts {
+      font-size: 2rem;
+      margin-top: 30px;
+      animation: heartbeat 1.5s ease-in-out infinite;
+    }
+
+    @keyframes heartbeat {
+      0%, 100% { transform: scale(1); }
+      50% { transform: scale(1.1); }
+    }
+
+    /* CONTAINER DO CONTROLE - CENTRALIZADO */
+    .controller-container {
+      display: none;
+      background: linear-gradient(145deg, #f5f5f5 0%, #e8e8e8 100%);
+      border-radius: 30px;
+      padding: 25px 30px;
+      box-shadow: 
+        0 15px 40px rgba(173, 20, 87, 0.3),
+        inset 0 2px 10px rgba(255, 255, 255, 0.8),
+        inset 0 -2px 10px rgba(0, 0, 0, 0.1);
+      border: 3px solid #fff;
+      position: relative;
+      max-width: 650px;
+      width: 95%;
+      z-index: 1;
+      /* Centralização garantida */
+      margin: 0 auto;
+    }
+
+    .controller-container.show {
+      display: block;
+      animation: controllerAppear 0.8s cubic-bezier(0.34, 1.56, 0.64, 1);
+    }
+
+    @keyframes controllerAppear {
+      from { 
+        opacity: 0; 
+        transform: scale(0.9) translateY(30px); 
+      }
+      to { 
+        opacity: 1; 
+        transform: scale(1) translateY(0); 
+      }
+    }
+
+    /* Header do controle */
+    .controller-header {
+      text-align: center;
+      margin-bottom: 30px;
+    }
+
+    .controller-header h1 {
+      font-family: 'Press Start 2P', cursive;
+      font-size: 1.3rem;
+      color: #ad1457;
+      margin-bottom: 10px;
+      text-shadow: 2px 2px 0 rgba(255, 255, 255, 0.8);
+    }
+
+    .controller-header .status {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: rgba(255, 255, 255, 0.8);
+      padding: 8px 20px;
+      border-radius: 20px;
+      font-size: 0.85rem;
+      color: #880e4f;
+      font-weight: 600;
+      box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+    }
+
+    .status-dot {
+      width: 10px;
+      height: 10px;
+      background: #4caf50;
+      border-radius: 50%;
+      animation: pulse 2s ease-in-out infinite;
+      box-shadow: 0 0 10px #4caf50;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.6; transform: scale(1.2); }
+    }
+
+    /* Layout do controle SNES */
+    .snes-layout {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 30px;
+    }
+
+    /* D-PAD - SEM MOVIMENTO */
+    .d-pad {
+      position: relative;
+      width: 150px;
+      height: 150px;
+      flex-shrink: 0;
+    }
+
+    .d-pad-center {
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      width: 50px;
+      height: 50px;
+      background: linear-gradient(145deg, #424242 0%, #212121 100%);
+      z-index: 10;
+      border-radius: 5px;
+      box-shadow: 
+        inset 0 2px 5px rgba(255, 255, 255, 0.2),
+        0 2px 5px rgba(0, 0, 0, 0.3);
+    }
+
+    .d-btn {
+      position: absolute;
+      background: linear-gradient(145deg, #424242 0%, #212121 100%);
+      cursor: pointer;
+      box-shadow: 
+        inset 0 2px 5px rgba(255, 255, 255, 0.2),
+        0 3px 8px rgba(0, 0, 0, 0.4);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      /* SEM TRANSITION - sem movimento */
+    }
+
+    /* D-PAD: SEM NENHUM MOVIMENTO AO CLICAR */
+    .d-btn:active, .d-btn.active {
+      /* Apenas muda a cor levemente, sem transform */
+      background: linear-gradient(145deg, #1a1a1a 0%, #2d2d2d 100%);
+      box-shadow: 
+        inset 0 3px 10px rgba(0, 0, 0, 0.5),
+        0 1px 3px rgba(0, 0, 0, 0.3);
+    }
+
+    .d-up {
+      top: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50px;
+      height: 55px;
+      border-radius: 8px 8px 3px 3px;
+    }
+
+    .d-down {
+      bottom: 0;
+      left: 50%;
+      transform: translateX(-50%);
+      width: 50px;
+      height: 55px;
+      border-radius: 3px 3px 8px 8px;
+    }
+
+    .d-left {
+      left: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 55px;
+      height: 50px;
+      border-radius: 8px 3px 3px 8px;
+    }
+
+    .d-right {
+      right: 0;
+      top: 50%;
+      transform: translateY(-50%);
+      width: 55px;
+      height: 50px;
+      border-radius: 3px 8px 8px 3px;
+    }
+
+    /* Botões A e B - Diagonal SNES */
+    .action-buttons {
+      display: flex;
+      gap: 20px;
+      align-items: flex-start;
+      flex-shrink: 0;
+    }
+
+    .btn-container {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      gap: 10px;
+    }
+
+    /* B mais alto */
+    .btn-container:first-child {
+      margin-top: 0;
+    }
+
+    /* A mais baixo */
+    .btn-container:last-child {
+      margin-top: 35px;
+    }
+
+    .action-btn {
+      width: 85px;
+      height: 85px;
+      border-radius: 50%;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: 'Press Start 2P', cursive;
+      font-size: 1.5rem;
+      box-shadow: 
+        0 6px 0 rgba(0, 0, 0, 0.3),
+        0 10px 20px rgba(0, 0, 0, 0.3),
+        inset 0 3px 10px rgba(255, 255, 255, 0.4);
+      position: relative;
+      border: 3px solid rgba(255, 255, 255, 0.5);
+      -webkit-user-select: none;
+      user-select: none;
+      -webkit-touch-callout: none;
+    }
+
+    /* Botões A e B: apenas afundam, sem scale */
+    .action-btn:active, .action-btn.active {
+      transform: translateY(6px);
+      box-shadow: 
+        0 0 0 rgba(0, 0, 0, 0.3),
+        0 4px 10px rgba(0, 0, 0, 0.3),
+        inset 0 3px 15px rgba(0, 0, 0, 0.3);
+    }
+
+    .btn-a {
+      background: linear-gradient(145deg, #ff5252 0%, #d32f2f 100%);
+      color: white;
+    }
+
+    .btn-b {
+      background: linear-gradient(145deg, #ffeb3b 0%, #fbc02d 100%);
+      color: #5a4a00;
+    }
+
+    .btn-label {
+      font-family: 'Press Start 2P', cursive;
+      font-size: 0.9rem;
+      color: #ad1457;
+      text-shadow: 1px 1px 0 rgba(255, 255, 255, 0.8);
+    }
+
+    /* Log de eventos */
+    .event-log {
+      margin-top: 30px;
+      background: rgba(255, 255, 255, 0.7);
+      border-radius: 15px;
+      padding: 20px;
+      min-height: 80px;
+      max-height: 120px;
+      overflow-y: auto;
+      border: 2px solid rgba(255, 255, 255, 0.8);
+      box-shadow: inset 0 2px 10px rgba(0, 0, 0, 0.05);
+    }
+
+    .event-log h3 {
+      font-family: 'Press Start 2P', cursive;
+      font-size: 0.7rem;
+      color: #ad1457;
+      margin-bottom: 10px;
+    }
+
+    .log-item {
+      font-size: 0.9rem;
+      color: #5a3a4a;
+      padding: 5px 0;
+      border-bottom: 1px solid rgba(173, 20, 87, 0.1);
+      animation: slideIn 0.3s ease;
+    }
+
+    @keyframes slideIn {
+      from { opacity: 0; transform: translateX(-10px); }
+      to { opacity: 1; transform: translateX(0); }
+    }
+
+    .log-item:last-child {
+      border-bottom: none;
+    }
+
+    .log-empty {
+      font-style: italic;
+      color: #999;
+      text-align: center;
+    }
+
+    /* MEDIA QUERIES - ORIENTAÇÃO */
+    @media (orientation: landscape) {
+      .orientation-warning {
+        display: none !important;
+      }
+      
+      .controller-container.show {
+        display: block;
+      }
+    }
+
+    @media (orientation: portrait) {
+      .orientation-warning.show {
+        display: flex;
+      }
+      
+      .controller-container {
+        display: none !important;
+      }
+    }
+
+    @media (max-height: 500px) and (orientation: landscape) {
+      .controller-container {
+        padding: 20px 25px;
+      }
+      
+      .d-pad {
+        width: 120px;
+        height: 120px;
+      }
+      
+      .action-btn {
+        width: 70px;
+        height: 70px;
+        font-size: 1.2rem;
+      }
+      
+      .controller-header h1 {
+        font-size: 1rem;
+      }
+    }
+
+    /* Scrollbar customizada */
+    .event-log::-webkit-scrollbar {
+      width: 6px;
+    }
+
+    .event-log::-webkit-scrollbar-track {
+      background: rgba(255, 255, 255, 0.5);
+      border-radius: 3px;
+    }
+
+    .event-log::-webkit-scrollbar-thumb {
+      background: #ff9ebb;
+      border-radius: 3px;
+    }
+
+    .event-log::-webkit-scrollbar-thumb:hover {
+      background: #ff7aa2;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- TELA DE ORIENTAÇÃO (aparece em portrait) -->
+  <div class="orientation-warning" id="orientationWarning">
+    <div class="orientation-icon">📱</div>
+    <h2>Minha Linda, vire o celular :3</h2>
+    <p>O controle fica muito melhor na horizontal!</p>
+    <div class="orientation-hearts">💗💗</div>
+  </div>
+
+  <!-- CONTAINER DO CONTROLE (aparece em landscape) -->
+  <div class="controller-container" id="controllerContainer">
+    <div class="controller-header">
+      <h1>🎮 CONTROLE DA CAROL 💗</h1>
+      <div class="status">
+        <span class="status-dot"></span>
+        <span>Conectado</span>
+      </div>
+    </div>
+
+    <div class="snes-layout">
+      <!-- D-PAD SEM TEXTO -->
+      <div class="d-pad">
+        <div class="d-btn d-up" data-btn="up" onclick="sendButton('up')"></div>
+        <div class="d-btn d-down" data-btn="down" onclick="sendButton('down')"></div>
+        <div class="d-btn d-left" data-btn="left" onclick="sendButton('left')"></div>
+        <div class="d-btn d-right" data-btn="right" onclick="sendButton('right')"></div>
+        <div class="d-pad-center"></div>
+      </div>
+
+      <!-- BOTÕES A E B - POSICIONAMENTO DIAGONAL -->
+      <div class="action-buttons">
+        <!-- BOTÃO B (mais alto) -->
+        <div class="btn-container">
+          <div class="action-btn btn-b" data-btn="b" onclick="sendButton('b')">
+            B
+          </div>
+          <span class="btn-label">B</span>
+        </div>
+        
+        <!-- BOTÃO A (mais baixo) -->
+        <div class="btn-container">
+          <div class="action-btn btn-a" data-btn="a" onclick="sendButton('a')">
+            A
+          </div>
+          <span class="btn-label">A</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- LOG DE EVENTOS -->
+    <div class="event-log" id="eventLog">
+      <h3>📋 AÇÕES:</h3>
+      <div id="logContent">
+        <p class="log-empty">Aguardando seus comandos... </p>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // ==========================================
+    // CONFIGURAÇÃO DINÂMICA DO SERVIDOR
+    // ==========================================
+    let WS_URL = '';
+    let ws = null;
+
+    // Pega o sessionId da URL (ex: /painel/abc123)
+    const sessionId = window.location.pathname.split('/').pop();
+    
+    // Elementos DOM
+    const orientationWarning = document.getElementById('orientationWarning');
+    const controllerContainer = document.getElementById('controllerContainer');
+    const logContent = document.getElementById('logContent');
+    
+    // 1. Verifica orientação inicial
+    checkOrientation();
+    
+    // 2. Escuta mudança de orientação
+    window.addEventListener('orientationchange', () => {
+      setTimeout(checkOrientation, 300);
+    });
+    
+    // 3. Também escuta resize (para desktop)
+    window.addEventListener('resize', () => {
+      setTimeout(checkOrientation, 300);
+    });
+
+    // 4. CARREGA AS CONFIGURAÇÕES E SÓ DEPOIS CONECTA NO WEBSOCKET
+    carregarConfiguracoes().then(() => {
+      conectarWebSocket();
+    });
+
+    // --- FUNÇÕES ---
+
+    async function carregarConfiguracoes() {
+      try {
+        const res = await fetch('/getWsEnd').then(r => r.json());
+        WS_URL = res.url;
+        console.log('✅ WS_URL do Painel carregado:', WS_URL);
+      } catch (error) {
+        console.error('❌ Erro ao carregar configurações:', error);
+        // Tenta novamente em 2 segundos se falhar
+        setTimeout(carregarConfiguracoes, 2000);
+      }
+    }
+    
+    function checkOrientation() {
+      if (window.innerHeight > window.innerWidth) {
+        // Portrait (Celular em pé)
+        orientationWarning.classList.add('show');
+        controllerContainer.classList.remove('show');
+      } else {
+        // Landscape (Celular deitado)
+        orientationWarning.classList.remove('show');
+        setTimeout(() => {
+          controllerContainer.classList.add('show');
+        }, 100);
+      }
+    }
+    
+    function conectarWebSocket() {
+      // Segurança: garante que a URL existe antes de tentar conectar
+      if (!WS_URL) {
+        console.warn('⏳ WS_URL ainda não carregado, aguardando...');
+        setTimeout(conectarWebSocket, 500);
+        return;
+      }
+
+      try {
+        ws = new WebSocket(WS_URL);
+        
+        ws.onopen = () => {
+          console.log('🔌 Painel conectado em:', WS_URL);
+          ws.send(JSON.stringify({
+            type: 'register_painel',
+            sessionId: sessionId
+          }));
+        };
+        
+        ws.onmessage = (event) => {
+          const data = JSON.parse(event.data);
+          handleServerMessage(data);
+        };
+        
+        ws.onerror = (error) => {
+          console.error('⚠️ Erro WebSocket:', error);
+        };
+        
+        ws.onclose = () => {
+          console.log('🔌 WebSocket fechado, reconectando em 3s...');
+          setTimeout(conectarWebSocket, 3000);
+        };
+      } catch (e) {
+        console.error('❌ Erro ao criar WebSocket:', e);
+        setTimeout(conectarWebSocket, 3000);
+      }
+    }
+    
+    function handleServerMessage(data) {
+      console.log('📩 Mensagem do servidor:', data);
+    }
+    
+    function sendButton(button) {
+      // Adiciona visual feedback (classe active)
+      const btn = document.querySelector(`[data-btn="${button}"]`);
+      if (btn) {
+        btn.classList.add('active');
+        setTimeout(() => btn.classList.remove('active'), 150);
+      }
+      
+      // Adiciona no log
+      addLog(button.toUpperCase());
+      
+      // Envia pro servidor
+      if (ws && ws.readyState === WebSocket.OPEN) {
+        ws.send(JSON.stringify({
+          type: 'button_press',
+          sessionId: sessionId,
+          button: button
+        }));
+      }
+    }
+    
+    function addLog(buttonName) {
+      // Remove mensagem vazia se existir
+      const emptyMsg = logContent.querySelector('.log-empty');
+      if (emptyMsg) emptyMsg.remove();
+      
+      // Cria novo item
+      const logItem = document.createElement('div');
+      logItem.className = 'log-item';
+      const hora = new Date().toLocaleTimeString('pt-BR', { 
+        hour: '2-digit', 
+        minute: '2-digit', 
+        second: '2-digit' 
+      });
+      logItem.textContent = `[${hora}] ${buttonName}`;
+      
+      // Adiciona no início
+      logContent.insertBefore(logItem, logContent.firstChild);
+      
+      // Limita a 10 itens
+      while (logContent.children.length > 10) {
+        logContent.removeChild(logContent.lastChild);
+      }
+    }
+    
+    // Previne zoom em double-tap (mobile)
+    let lastTouchEnd = 0;
+    document.addEventListener('touchend', (e) => {
+      const now = Date.now();
+      if (now - lastTouchEnd <= 300) {
+        e.preventDefault();
+      }
+      lastTouchEnd = now;
+    }, false);
+  </script>
+</body>
+</html>
